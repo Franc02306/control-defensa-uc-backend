@@ -1,0 +1,63 @@
+############################
+# .NET & ASP.NET Core
+############################
+bin/
+obj/
+*.log
+*.user
+*.suo
+*.userprefs
+*.ncrunch*
+*.vspscc
+*.vssscc
+*.dbmdl
+*.cache
+*.pdb
+
+############################
+# Web config y appsettings
+############################
+appsettings.json
+appsettings.*.json
+launchSettings.json
+
+############################
+# Visual Studio / Rider
+############################
+.vs/
+.idea/
+*.DotSettings.user
+
+############################
+# Sistema
+############################
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.bak
+*.tmp
+*.temp
+
+############################
+# Git
+############################
+*.orig
+*.rej
+
+############################
+# Otros
+############################
+logs/
+*.sqlite
+*.db
+.env
+node_modules/
+npm-debug.log*
+
+# Si usas paquetes NuGet locales
+*.nupkg
+.nuget/
+
+# Archivos de publicación
+publish/
