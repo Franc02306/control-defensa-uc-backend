@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SISTEMA_DEFENSA_API.EL\SISTEMA_DEFENSA_API.EL.csproj" />
+  </ItemGroup>
+
 </Project>
