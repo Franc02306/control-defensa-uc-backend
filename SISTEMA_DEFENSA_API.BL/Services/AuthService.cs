@@ -1,16 +1,11 @@
-﻿using SISTEMA_DEFENSA_API.EL.DbContexts;
-using SISTEMA_DEFENSA_API.EL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SISTEMA_DEFENSA_API.BL.Utils;
+using SISTEMA_DEFENSA_API.EL.DbContexts;
+using SISTEMA_DEFENSA_API.EL.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using SISTEMA_DEFENSA_API.EL.Models;
 
 namespace SISTEMA_DEFENSA_API.BL.Services
 {
@@ -27,10 +22,15 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
         public User? ValidateCredentials(string username, string password)
         {
-            return _context.Users.FirstOrDefault(u => 
+            var user = _context.Users.FirstOrDefault(u =>
                 u.Username == username &&
-                u.Password == password &&
                 u.Status);
+
+            if (user == null) return null;
+
+            // Compara password plano contra hash
+            bool valid = PasswordHasher.Verify(password, user.Password);
+            return valid ? user : null;
         }
 
         public string GenerateJwtToken(User user)

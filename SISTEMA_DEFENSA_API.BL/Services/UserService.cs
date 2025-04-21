@@ -1,11 +1,7 @@
-﻿using SISTEMA_DEFENSA_API.EL.DbContexts;
+﻿using SISTEMA_DEFENSA_API.BL.Utils;
+using SISTEMA_DEFENSA_API.EL.DbContexts;
 using SISTEMA_DEFENSA_API.EL.DTOs.Request;
 using SISTEMA_DEFENSA_API.EL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SISTEMA_DEFENSA_API.BL.Services
 {
@@ -32,7 +28,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 LastName = request.LastName,
                 Username = request.Username,
                 Email = request.Email,
-                Password = request.Password,
+                Password = PasswordHasher.Hash(request.Password),
                 Status = request.Status,
                 CreatedAt = DateTime.Now
             };
@@ -73,7 +69,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 existingUser.LastName = request.LastName;
 
             if (!string.IsNullOrWhiteSpace(request.Password))
-                existingUser.Password = request.Password;
+                existingUser.Password = PasswordHasher.Hash(request.Password);
 
             _context.SaveChanges();
 
