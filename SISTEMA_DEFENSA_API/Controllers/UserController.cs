@@ -74,5 +74,19 @@ namespace SISTEMA_DEFENSA_API.Controllers
                 return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
             }
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            try
+            {
+                _userService.DeleteUser(id);
+                return Ok(ApiResponse<string>.SuccessResponse(null, "Usuario eliminado exitosamente"));
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+        }
     }
 }

@@ -79,5 +79,19 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
             return existingUser;
         }
+
+        public void DeleteUser(int id)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+                throw new Exception("El usuario no existe");
+
+            if (!user.Status)
+                throw new Exception("El usuario ya está inactivo");
+
+            user.Status = false;
+            _context.SaveChanges();
+        }
     }
 }
