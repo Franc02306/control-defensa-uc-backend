@@ -27,8 +27,10 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
         public User? ValidateCredentials(string username, string password)
         {
-            return _context.Users
-                .FirstOrDefault(u => u.Username == username && u.Password == password);
+            return _context.Users.FirstOrDefault(u => 
+                u.Username == username &&
+                u.Password == password &&
+                u.Status);
         }
 
         public string GenerateJwtToken(User user)
