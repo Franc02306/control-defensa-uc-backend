@@ -10,16 +10,16 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 {
     public class AuthService
     {
-        private readonly DefensaDbContext _context;
+        private readonly DefenseDbContext _context;
 
-        public AuthService(DefensaDbContext context)
+        public AuthService(DefenseDbContext context)
         {
             _context = context;
         }
 
-        public User? ValidarCredenciales(string username, string password)
+        public User? ValidateCredentials(string username, string password)
         {
-            return _context.Usuarios
+            return _context.Users
                 .FirstOrDefault(u => u.Username == username && u.Password == password);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Services;
 using SISTEMA_DEFENSA_API.BL.Services;
 using SISTEMA_DEFENSA_API.EL.DbContexts;
@@ -23,21 +24,21 @@ namespace SISTEMA_DEFENSA_API.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            var usuario = _authService.ValidarCredenciales(request.NombreUsuario, request.Contrasenia);
+            var user = _authService.ValidateCredentials(request.Username, request.Password);
 
-            if (usuario == null)
+            if (user == null)
             {
                 return Unauthorized(ApiResponse<string>.ErrorResponse("Credenciales inválidas"));
             }
 
-            var usuarioResponse = new
+            var userResponse = new
             {
-                usuario.Id,
-                usuario.Username,
-                usuario.Email
+                user.Id,
+                user.Username,
+                user.Email
             };
 
-            return Ok(ApiResponse<object>.SuccessResponse(usuarioResponse, "Inicio de sesión exitoso"));
+            return Ok(ApiResponse<object>.SuccessResponse(userResponse, "Inicio de sesión exitoso"));
         }
     }
 }

@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 // Leer cadena de conexión desde appsetting.json
-builder.Services.AddDbContext<DefensaDbContext>(options =>
+builder.Services.AddDbContext<DefenseDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<AuthService>();
