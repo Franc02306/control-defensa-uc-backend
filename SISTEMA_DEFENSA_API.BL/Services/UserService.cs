@@ -22,6 +22,9 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             if (_context.Users.Any(u => u.Email == request.Email))
                 throw new Exception("El correo electrónico ya existe");
 
+            if (!PasswordValidator.IsStrong(request.Password))
+                throw new Exception("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo");
+
             var newUser = new User
             {
                 FirstName = request.FirstName,
@@ -69,7 +72,12 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 existingUser.LastName = request.LastName;
 
             if (!string.IsNullOrWhiteSpace(request.Password))
+            {
+                if (!PasswordValidator.IsStrong(request.Password))
+                    throw new Exception("La nueva contraseña no es segura. Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo");
+
                 existingUser.Password = PasswordHasher.Hash(request.Password);
+            }
 
             _context.SaveChanges();
 
