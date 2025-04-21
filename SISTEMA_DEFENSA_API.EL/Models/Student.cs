@@ -38,6 +38,6 @@ namespace SISTEMA_DEFENSA_API.EL.Models
         public int IdAddress { get; set; }
 
         // Relación con Address
-        public Direccion? Address { get; set; }
+        public Address? Address { get; set; }
     }
 }

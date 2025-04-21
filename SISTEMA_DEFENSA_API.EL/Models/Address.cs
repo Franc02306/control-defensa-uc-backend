@@ -14,7 +14,7 @@ namespace SISTEMA_DEFENSA_API.EL.Models
         public int Id { get; set; }
 
         [Column("ID_PROVINCE")]
-        public int IdProvincie { get; set; }
+        public int IdProvince { get; set; }
 
         [Column("ID_MUNICIPALITY")]
         public int IdMunicipality { get; set; }

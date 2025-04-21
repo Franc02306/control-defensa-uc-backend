@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SISTEMA_DEFENSA_API.EL.DTOs.Response
 {
-    public class DireccionResponse
+    public class AddressResponse
     {
         public int Id { get; set; }
-        public string Provincia { get; set; }
-        public string Municipio { get; set; }
-        public string? Calle { get; set; }
-        public string? Numero { get; set; }
+        public string Province { get; set; }
+        public string Municipality { get; set; }
+        public string? Street { get; set; }
+        public string? Number { get; set; }
     }
 }

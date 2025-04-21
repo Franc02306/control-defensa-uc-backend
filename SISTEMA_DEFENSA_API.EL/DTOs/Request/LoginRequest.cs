@@ -8,7 +8,7 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Request
 {
     public class LoginRequest
     {
-        public string NombreUsuario { get; set; }
-        public string Contrasenia { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }
