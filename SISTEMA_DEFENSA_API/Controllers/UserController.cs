@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SISTEMA_DEFENSA_API.BL.Services;
 using SISTEMA_DEFENSA_API.EL.DTOs.Request;
 using SISTEMA_DEFENSA_API.EL.DTOs.Response;
@@ -6,6 +7,7 @@ using SISTEMA_DEFENSA_API.EL.Models;
 
 namespace SISTEMA_DEFENSA_API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase

@@ -27,18 +27,16 @@ namespace SISTEMA_DEFENSA_API.Controllers
             var user = _authService.ValidateCredentials(request.Username, request.Password);
 
             if (user == null)
-            {
                 return Unauthorized(ApiResponse<string>.ErrorResponse("Credenciales inválidas"));
-            }
 
-            var userResponse = new
+            var token = _authService.GenerateJwtToken(user);
+
+            return Ok(ApiResponse<object>.SuccessResponse(new
             {
-                user.Id,
-                user.Username,
-                user.Email
-            };
-
-            return Ok(ApiResponse<object>.SuccessResponse(userResponse, "Inicio de sesión exitoso"));
+                token,
+                username = user.Username,
+                email = user.Email
+            }, "Inicio de sesión exitoso"));
         }
     }
 }
