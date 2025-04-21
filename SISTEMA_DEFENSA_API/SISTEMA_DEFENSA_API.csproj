@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SISTEMA_DEFENSA_API.BL\SISTEMA_DEFENSA_API.BL.csproj" />
   </ItemGroup>
 

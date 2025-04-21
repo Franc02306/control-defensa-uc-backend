@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SISTEMA_DEFENSA_API.EL.DbContexts;
+using SISTEMA_DEFENSA_API.BL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Leer cadena de conexión desde appsetting.json
 builder.Services.AddDbContext<DefensaDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

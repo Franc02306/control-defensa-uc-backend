@@ -11,12 +11,12 @@ namespace SISTEMA_DEFENSA_API.EL.DbContexts
         {
         }
 
-        public DbSet<Estudiante> Estudiantes { get; set; }
-        public DbSet<Direccion> Direcciones { get; set; }
-        public DbSet<Profesor> Profesores { get; set; }
-        public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Municipio> Municipios { get; set; }
-        public DbSet<Provincia> Provincias { get; set; }
+        public DbSet<Student> Estudiantes { get; set; }
+        public DbSet<Address> Direcciones { get; set; }
+        public DbSet<Professor> Profesores { get; set; }
+        public DbSet<User> Usuarios { get; set; }
+        public DbSet<Municipality> Municipios { get; set; }
+        public DbSet<Province> Provincias { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
