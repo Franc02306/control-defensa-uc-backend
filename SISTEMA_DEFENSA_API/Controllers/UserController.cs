@@ -20,20 +20,28 @@ namespace SISTEMA_DEFENSA_API.Controllers
         [HttpPost]
         public IActionResult CreateUser([FromBody] UserRequest request)
         {
-            var user = _userService.CreateUser(request);
-
-            var response = new UserResponse
+            try
             {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.Username,
-                Email = user.Email,
-                Status = user.Status,
-                CreatedAt = user.CreatedAt
-            };
+                var user = _userService.CreateUser(request);
 
-            return CreatedAtAction(nameof(CreateUser), new { id = response.Id }, response);
+                var response = new UserResponse
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Username = user.Username,
+                    Email = user.Email,
+                    Status = user.Status,
+                    CreatedAt = user.CreatedAt
+                };
+
+                return CreatedAtAction(nameof(CreateUser), new { id = response.Id }, 
+                    ApiResponse<UserResponse>.SuccessResponse(response, "Usuario creado exitosamente"));
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
         }
     }
 }

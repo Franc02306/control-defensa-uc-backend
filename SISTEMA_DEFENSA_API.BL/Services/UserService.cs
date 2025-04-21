@@ -20,6 +20,12 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
         public User CreateUser(UserRequest request)
         {
+            if (_context.Users.Any(u => u.Username == request.Username))
+                throw new Exception("El nombre de usuario ya existe");
+
+            if (_context.Users.Any(u => u.Email == request.Email))
+                throw new Exception("El correo electrónico ya existe");
+
             var newUser = new User
             {
                 FirstName = request.FirstName,
@@ -28,7 +34,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 Email = request.Email,
                 Password = request.Password,
                 Status = request.Status,
-                CreatedAt = request.CreatedAt
+                CreatedAt = DateTime.Now
             };
 
             _context.Users.Add(newUser);
