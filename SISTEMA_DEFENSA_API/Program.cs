@@ -38,6 +38,26 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtConfig["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnChallenge = context =>
+        {
+            context.HandleResponse(); // evita que se siga con la respuesta por defecto
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "application/json";
+
+            var response = new
+            {
+                success = false,
+                message = "Acceso no autorizado",
+                data = (object)null
+            };
+
+            var json = System.Text.Json.JsonSerializer.Serialize(response);
+            return context.Response.WriteAsync(json);
+        }
+    };
 });
 
 // Configuración de validaciones de campos
