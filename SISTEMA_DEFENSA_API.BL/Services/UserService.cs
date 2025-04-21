@@ -18,7 +18,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             _context = context;
         }
 
-        public User CreateUser(UserRequest request)
+        public User CreateUser(UserNewRequest request)
         {
             if (_context.Users.Any(u => u.Username == request.Username))
                 throw new Exception("El nombre de usuario ya existe");
@@ -41,6 +41,43 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             _context.SaveChanges();
 
             return newUser;
+        }
+
+        public User UpdateUser(int id, UserUpdateRequest request)
+        {
+            var existingUser = _context.Users.FirstOrDefault(u => u.Id == id);
+
+            if (existingUser == null)
+                throw new Exception("El usuario no existe");
+
+            if (!string.IsNullOrWhiteSpace(request.Username) && request.Username != existingUser.Username)
+            {
+                if (_context.Users.Any(u => u.Username == request.Username && u.Id != id))
+                    throw new Exception("El nombre de usuario ya está en uso");
+
+                existingUser.Username = request.Username;
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Email) && request.Email != existingUser.Email)
+            {
+                if (_context.Users.Any(u => u.Email == request.Email && u.Id != id))
+                    throw new Exception("El correo ya está en uso");
+
+                existingUser.Email = request.Email;
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.FirstName))
+                existingUser.FirstName = request.FirstName;
+
+            if (!string.IsNullOrWhiteSpace(request.LastName))
+                existingUser.LastName = request.LastName;
+
+            if (!string.IsNullOrWhiteSpace(request.Password))
+                existingUser.Password = request.Password;
+
+            _context.SaveChanges();
+
+            return existingUser;
         }
     }
 }

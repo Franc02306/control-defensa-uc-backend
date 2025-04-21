@@ -18,7 +18,7 @@ namespace SISTEMA_DEFENSA_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateUser([FromBody] UserRequest request)
+        public IActionResult CreateUser([FromBody] UserNewRequest request)
         {
             try
             {
@@ -37,6 +37,37 @@ namespace SISTEMA_DEFENSA_API.Controllers
 
                 return CreatedAtAction(nameof(CreateUser), new { id = response.Id }, 
                     ApiResponse<UserResponse>.SuccessResponse(response, "Usuario creado exitosamente"));
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser(int id, [FromBody] UserUpdateRequest? request)
+        {
+            if (request == null)
+            {
+                return BadRequest(ApiResponse<string>.ErrorResponse("No se recibieron datos para actualizar"));
+            }
+
+            try
+            {
+                var updatedUser = _userService.UpdateUser(id, request);
+
+                var response = new UserResponse
+                {
+                    Id = updatedUser.Id,
+                    FirstName = updatedUser.FirstName,
+                    LastName = updatedUser.LastName,
+                    Username = updatedUser.Username,
+                    Email = updatedUser.Email,
+                    Status = updatedUser.Status,
+                    CreatedAt = updatedUser.CreatedAt
+                };
+
+                return Ok(ApiResponse<UserResponse>.SuccessResponse(response, "Usuario actualizado correctamente"));
             }
             catch (Exception ex)
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SISTEMA_DEFENSA_API.EL.DTOs.Request
 {
-    public class UserRequest
+    public class UserNewRequest
     {
         [Required(ErrorMessage = "El campo Nombre es obligatorio")]
         public string FirstName { get; set; }
