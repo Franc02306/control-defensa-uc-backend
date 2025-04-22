@@ -16,6 +16,8 @@ builder.Services.AddDbContext<DefenseDbContext>(options =>
 // Registro de Servicios
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<LocationService>();
+builder.Services.AddScoped<AddressService>();
 
 // Configuración de JWT
 var jwtConfig = builder.Configuration.GetSection("Jwt");
