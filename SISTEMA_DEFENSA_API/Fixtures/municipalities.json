@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Chachapoyas",
+    "idProvince": 1
+  },
+  {
+    "name": "Bagua",
+    "idProvince": 1
+  },
+  {
+    "name": "Bongará",
+    "idProvince": 1
+  },
+  {
+    "name": "Condorcanqui",
+    "idProvince": 1
+  },
+  {
+    "name": "Luya",
+    "idProvince": 1
+  },
+  {
+    "name": "Rodríguez de Mendoza",
+    "idProvince": 1
+  },
+  {
+    "name": "Utcubamba",
+    "idProvince": 1
+  },
+  {
+    "name": "Huaraz",
+    "idProvince": 2
+  },
+  {
+    "name": "Aija",
+    "idProvince": 2
+  },
+  {
+    "name": "Antonio Raymondi",
+    "idProvince": 2
+  },
+  {
+    "name": "Asunción",
+    "idProvince": 2
+  },
+  {
+    "name": "Bolognesi",
+    "idProvince": 2
+  },
+  {
+    "name": "Casma",
+    "idProvince": 2
+  },
+  {
+    "name": "Corongo",
+    "idProvince": 2
+  },
+  {
+    "name": "Huari",
+    "idProvince": 2
+  },
+  {
+    "name": "Huarmey",
+    "idProvince": 2
+  },
+  {
+    "name": "Huaylas",
+    "idProvince": 2
+  },
+  {
+    "name": "Mariscal Luzuriaga",
+    "idProvince": 2
+  },
+  {
+    "name": "Ocros",
+    "idProvince": 2
+  },
+  {
+    "name": "Pallasca",
+    "idProvince": 2
+  },
+  {
+    "name": "Pomabamba",
+    "idProvince": 2
+  },
+  {
+    "name": "Recuay",
+    "idProvince": 2
+  },
+  {
+    "name": "Santa",
+    "idProvince": 2
+  },
+  {
+    "name": "Sihuas",
+    "idProvince": 2
+  },
+  {
+    "name": "Yungay",
+    "idProvince": 2
+  }
+]
