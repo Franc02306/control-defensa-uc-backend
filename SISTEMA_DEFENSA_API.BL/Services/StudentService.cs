@@ -166,6 +166,40 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             _context.SaveChanges();
         }
 
+        public StudentResponse GetStudentById(int id)
+        {
+            var student = _context.Students
+                .Where(s => s.Id == id)
+                .Include(s => s.Address)
+                    .ThenInclude(a => a.Province)
+                .Include(s => s.Address)
+                    .ThenInclude(a => a.Municipality)
+                .FirstOrDefault();
+
+            if (student == null)
+                throw new Exception("El estudiante no existe");
+
+            return new StudentResponse
+            {
+                Id = student.Id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Gender = student.Gender,
+                BirthDate = student.BirthDate,
+                Major = student.Major,
+                Year = student.Year,
+                TeacherAverage = student.TeacherAverage,
+                Address = new AddressResponse
+                {
+                    Id = student.Address.Id,
+                    Province = student.Address.Province?.Name ?? string.Empty,
+                    Municipality = student.Address.Municipality?.Name ?? string.Empty,
+                    Street = student.Address.Street,
+                    Number = student.Address.Number
+                }
+            };
+        }
+
         private StudentResponse MapToResponse(Student student, Address address)
         {
             var provinceName = _context.Provinces.First(p => p.Id == address.IdProvince).Name;

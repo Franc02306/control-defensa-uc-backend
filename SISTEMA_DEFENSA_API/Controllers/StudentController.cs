@@ -74,6 +74,20 @@ namespace SISTEMA_DEFENSA_API.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetStudentById(int id)
+        {
+            try
+            {
+                var student = _studentService.GetStudentById(id);
+                return Ok(ApiResponse<StudentResponse>.SuccessResponse(student, "Estudiante encontrado exitosamente"));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteStudent(int id)
         {
