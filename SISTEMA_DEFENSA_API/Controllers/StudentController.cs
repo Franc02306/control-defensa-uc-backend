@@ -88,6 +88,14 @@ namespace SISTEMA_DEFENSA_API.Controllers
             }
         }
 
+        [HttpGet("search")]
+        public IActionResult SearchStudents([FromQuery] string? name)
+        {
+            var students = _studentService.SearchStudents(name);
+
+            return Ok(ApiResponse<List<StudentResponse>>.SuccessResponse(students, "Consulta realizada exitosamente"));
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteStudent(int id)
         {

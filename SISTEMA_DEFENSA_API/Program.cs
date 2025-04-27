@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SISTEMA_DEFENSA_API.EL.DbContexts;
 using SISTEMA_DEFENSA_API.BL.Services;
+using SISTEMA_DEFENSA_API.SQ;
 using SISTEMA_DEFENSA_API.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using SISTEMA_DEFENSA_API.EL.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<LocationService>();
 builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<StudentService>();
+builder.Services.AddScoped<StudentSQ>();
 
 // Configuración de JWT
 var jwtConfig = builder.Configuration.GetSection("Jwt");

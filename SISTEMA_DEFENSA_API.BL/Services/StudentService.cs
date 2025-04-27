@@ -3,16 +3,19 @@ using SISTEMA_DEFENSA_API.EL.DbContexts;
 using SISTEMA_DEFENSA_API.EL.DTOs.Request;
 using SISTEMA_DEFENSA_API.EL.DTOs.Response;
 using SISTEMA_DEFENSA_API.EL.Models;
+using SISTEMA_DEFENSA_API.SQ;
 
 namespace SISTEMA_DEFENSA_API.BL.Services
 {
     public class StudentService
     {
         private readonly DefenseDbContext _context;
+        private readonly StudentSQ _studentSQ;
 
-        public StudentService(DefenseDbContext context)
+        public StudentService(DefenseDbContext context, StudentSQ studentSQ)
         {
             _context = context;
+            _studentSQ = studentSQ;
         }
 
         public StudentResponse CreateStudent(StudentNewRequest request)
@@ -198,6 +201,11 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                     Number = student.Address.Number
                 }
             };
+        }
+
+        public List<StudentResponse> SearchStudents(string? name)
+        {
+            return _studentSQ.SearchStudents(name);
         }
 
         private StudentResponse MapToResponse(Student student, Address address)

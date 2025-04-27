@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SISTEMA_DEFENSA_API.EL.DTOs.Response;
 using SISTEMA_DEFENSA_API.EL.Models;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -17,6 +18,8 @@ namespace SISTEMA_DEFENSA_API.EL.DbContexts
         public DbSet<User> Users { get; set; }
         public DbSet<Municipality> Municipalities { get; set; }
         public DbSet<Province> Provinces { get; set; }
+
+        public DbSet<StudentsGetResponse> StudentSearchResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
