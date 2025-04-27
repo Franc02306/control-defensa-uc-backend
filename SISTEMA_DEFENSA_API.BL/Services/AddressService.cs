@@ -45,7 +45,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             return address;
         }
 
-        public int Create(AddressRequest request)
+        public int Create(AddressNewRequest request)
         {
             var newAddress = new Address
             {
@@ -61,7 +61,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             return newAddress.Id;
         }
 
-        public void Update(int id, AddressRequest request)
+        public void Update(int id, AddressNewRequest request)
         {
             var address = _context.Addresses.FirstOrDefault(a => a.Id == id);
             if (address == null)

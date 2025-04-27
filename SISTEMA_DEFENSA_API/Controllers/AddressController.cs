@@ -35,14 +35,14 @@ namespace SISTEMA_DEFENSA_API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<int> Create([FromBody] AddressRequest request)
+        public ActionResult<int> Create([FromBody] AddressNewRequest request)
         {
             var id = _addressService.Create(request);
             return Ok(id);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] AddressRequest request)
+        public IActionResult Update(int id, [FromBody] AddressNewRequest request)
         {
             _addressService.Update(id, request);
             return NoContent();

@@ -19,7 +19,7 @@ namespace SISTEMA_DEFENSA_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateStudent([FromBody] StudentRequest request)
+        public IActionResult CreateStudent([FromBody] StudentNewRequest request)
         {
             try
             {
@@ -27,6 +27,46 @@ namespace SISTEMA_DEFENSA_API.Controllers
 
                 return CreatedAtAction(nameof(CreateStudent), new { id = student.Id },
                     ApiResponse<StudentResponse>.SuccessResponse(student, "Estudiante creado exitosamente"));
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateStudent(int id, [FromBody] StudentUpdateRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest(ApiResponse<string>.ErrorResponse("No se recibieron datos para actualizar"));
+            }
+
+            try
+            {
+                var updatedStudent = _studentService.UpdateStudent(id, request);
+
+                var response = new StudentResponse
+                {
+                    Id = updatedStudent.Id,
+                    FirstName = updatedStudent.FirstName,
+                    LastName = updatedStudent.LastName,
+                    Gender = updatedStudent.Gender,
+                    BirthDate = updatedStudent.BirthDate,
+                    Major = updatedStudent.Major,
+                    Year = updatedStudent.Year,
+                    TeacherAverage = updatedStudent.TeacherAverage,
+                    Address = new AddressResponse
+                    {
+                        Id = updatedStudent.Address.Id,
+                        Province = updatedStudent.Address.Province?.Name ?? string.Empty,
+                        Municipality = updatedStudent.Address.Municipality?.Name ?? string.Empty,
+                        Street = updatedStudent.Address.Street,
+                        Number = updatedStudent.Address.Number
+                    }
+                };
+
+                return Ok(ApiResponse<StudentResponse>.SuccessResponse(response, "Estudiante actualizado exitosamente"));
             }
             catch (Exception ex)
             {

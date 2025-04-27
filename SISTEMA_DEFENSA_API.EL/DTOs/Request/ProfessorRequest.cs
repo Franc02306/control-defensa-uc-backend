@@ -18,6 +18,6 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Request
         public string ScientificCategory { get; set; }
 
         // Relacion DireccionRequest
-        public AddressRequest Address { get; set; }
+        public AddressNewRequest Address { get; set; }
     }
 }

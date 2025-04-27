@@ -1,4 +1,5 @@
-﻿using SISTEMA_DEFENSA_API.EL.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using SISTEMA_DEFENSA_API.EL.DbContexts;
 using SISTEMA_DEFENSA_API.EL.DTOs.Request;
 using SISTEMA_DEFENSA_API.EL.DTOs.Response;
 using SISTEMA_DEFENSA_API.EL.Models;
@@ -14,7 +15,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             _context = context;
         }
 
-        public StudentResponse CreateStudent(StudentRequest request)
+        public StudentResponse CreateStudent(StudentNewRequest request)
         {
             // Validar fecha de nacimiento no mayor a la actual
             if (request.BirthDate.Date > DateTime.Now.Date)
@@ -67,6 +68,92 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             _context.SaveChanges();
 
             return MapToResponse(student, address);
+        }
+
+        public Student UpdateStudent(int id, StudentUpdateRequest request)
+        {
+            var existingStudent = _context.Students.FirstOrDefault(s => s.Id == id);
+
+            // VALIDACIONES PARA ACTUALIZAR AL ESTUDIANTE
+            if (existingStudent == null) 
+                throw new Exception("El estudiante no existe");
+
+            if (!string.IsNullOrWhiteSpace(request.FirstName))
+                existingStudent.FirstName = request.FirstName;
+
+            if (!string.IsNullOrWhiteSpace(request.LastName))
+                existingStudent.LastName = request.LastName;
+
+            if (!string.IsNullOrWhiteSpace(request.Major))
+                existingStudent.Major = request.Major;
+
+            if (request.Year.HasValue)
+                existingStudent.Year = request.Year.Value;
+
+            if (request.BirthDate.HasValue)
+            {
+                if (request.BirthDate.Value.Date > DateTime.Now.Date)
+                    throw new Exception("La Fecha de Nacimiento no puede ser mayor a la fecha actual");
+
+                existingStudent.BirthDate = request.BirthDate.Value;
+            }
+
+            if (request.TeacherAverage.HasValue)
+            {
+                if (request.TeacherAverage.Value < 0 || request.TeacherAverage.Value > 20)
+                    throw new Exception("El promedio del profesor debe estar entre 0 y 20");
+
+                existingStudent.TeacherAverage = request.TeacherAverage.Value;
+            }
+
+            // VALIDACIONES PARA ACTUALIZAR LA DIRECCION DEL ESTUDIANTE
+            if (request.Address != null)
+            {
+                var existingAddress = _context.Addresses.FirstOrDefault(a =>
+                    a.IdProvince == request.Address.IdProvince &&
+                    a.IdMunicipality == request.Address.IdMunicipality &&
+                    a.Street == request.Address.Street &&
+                    a.Number == request.Address.Number
+                );
+
+                Address address;
+
+                if (existingAddress != null)
+                {
+                    address = existingAddress;
+                }
+                else
+                {
+                    address = new Address
+                    {
+                        IdProvince = request.Address.IdProvince ?? 0,
+                        IdMunicipality = request.Address.IdMunicipality ?? 0,
+                        Street = request.Address.Street,
+                        Number = request.Address.Number
+                    };
+
+                    _context.Addresses.Add(address);
+                    _context.SaveChanges();
+                }
+
+                existingStudent.IdAddress = address.Id;
+            }
+
+            _context.SaveChanges();
+
+            // Traer al estudiante actualizado con su Dirección incluida para evitar errores
+            var reloadedStudent = _context.Students
+                .Where(s => s.Id == id)
+                .Include(s => s.Address)
+                    .ThenInclude(a => a.Province)
+                .Include(s => s.Address)
+                    .ThenInclude(a => a.Municipality)
+                .FirstOrDefault();
+
+            if (reloadedStudent == null)
+                throw new Exception("Error al recargar el estudiante actualizado");
+
+            return reloadedStudent;
         }
 
         public void DeleteStudent(int id)
