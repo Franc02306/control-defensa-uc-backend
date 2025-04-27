@@ -109,5 +109,19 @@ namespace SISTEMA_DEFENSA_API.Controllers
                 return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
             }
         }
+
+        [HttpGet("average-age")]
+        public IActionResult GetAverageAge([FromQuery] int year, [FromQuery] string province)
+        {
+            try
+            {
+                var averageAge = _studentService.GetAverageAge(year, province);
+                return Ok(ApiResponse<decimal>.SuccessResponse(averageAge, "Promedio de edad calculado exitosamente"));
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+        }
     }
 }

@@ -208,6 +208,11 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             return _studentSQ.SearchStudents(name);
         }
 
+        public decimal GetAverageAge(int year, string province)
+        {
+            return _studentSQ.GetAverageAgeStudents(year, province);
+        }
+
         private StudentResponse MapToResponse(Student student, Address address)
         {
             var provinceName = _context.Provinces.First(p => p.Id == address.IdProvince).Name;

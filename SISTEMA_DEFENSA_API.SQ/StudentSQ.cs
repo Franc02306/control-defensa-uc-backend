@@ -44,5 +44,27 @@ namespace SISTEMA_DEFENSA_API.SQ
 
             return result;
         }
+
+        public decimal GetAverageAgeStudents(int year, string province)
+        {
+            var paramName = new SqlParameter("@Name", DBNull.Value);
+            var paramYear = new SqlParameter("@Year", year);
+            var paramProvince = new SqlParameter("@Province", province ?? (object)DBNull.Value);
+
+            var students = _context.StudentSearchResults
+                .FromSqlRaw("EXEC UC_SP_SEARCH_STUDENTS @Name, @Year, @Province", paramName, paramYear, paramProvince)
+                .ToList();
+
+            if (students.Count == 0)
+                throw new Exception("No se encontraron estudiantes para los filtros proporcionados.");
+
+            var today = DateTime.Today;
+
+            var averageAge = students
+                .Select(s => today.Year - s.BirthDate.Year - (today.DayOfYear < s.BirthDate.DayOfYear ? 1 : 0))
+                .Average();
+
+            return Math.Round((decimal)averageAge, 2);
+        }
     }
 }
