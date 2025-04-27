@@ -26,7 +26,10 @@ namespace SISTEMA_DEFENSA_API.EL.Models
         public string? Number { get; set; }
 
         // Relaciones de navegación
+        [ForeignKey("IdProvince")]
         public Province? Province { get; set; }
+
+        [ForeignKey("IdMunicipality")]
         public Municipality? Municipality { get; set; }
     }
 }

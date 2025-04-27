@@ -16,16 +16,40 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
         public StudentResponse CreateStudent(StudentRequest request)
         {
-            var address = new Address
-            {
-                IdProvince = request.Address.IdProvince,
-                IdMunicipality = request.Address.IdMunicipality,
-                Street = request.Address.Street,
-                Number = request.Address.Number
-            };
+            // Validar fecha de nacimiento no mayor a la actual
+            if (request.BirthDate.Date > DateTime.Now.Date)
+                throw new Exception("La Fecha de Nacimiento no puede ser mayor a la fecha actual");
 
-            _context.Addresses.Add(address);
-            _context.SaveChanges();
+            // Validar valores entre 0 a 20 en promedio de docente para el estudiante
+            if (request.TeacherAverage < 0 || request.TeacherAverage > 20)
+                throw new Exception("El promedio del profesor debe estar entre 0 y 20");
+
+            var existingAddress = _context.Addresses.FirstOrDefault(a =>
+                a.IdProvince == request.Address.IdProvince &&
+                a.IdMunicipality == request.Address.IdMunicipality &&
+                a.Street == request.Address.Street &&
+                a.Number == request.Address.Number
+            );
+
+            Address address;
+
+            if (existingAddress != null)
+            {
+                address = existingAddress;
+            }
+            else
+            {
+                address = new Address
+                {
+                    IdProvince = request.Address.IdProvince,
+                    IdMunicipality = request.Address.IdMunicipality,
+                    Street = request.Address.Street,
+                    Number = request.Address.Number
+                };
+
+                _context.Addresses.Add(address);
+                _context.SaveChanges();
+            }
 
             var student = new Student
             {

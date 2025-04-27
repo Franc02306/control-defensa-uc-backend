@@ -19,6 +19,7 @@ namespace SISTEMA_DEFENSA_API.Controllers
             _userService = userService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateUser([FromBody] UserNewRequest request)
         {

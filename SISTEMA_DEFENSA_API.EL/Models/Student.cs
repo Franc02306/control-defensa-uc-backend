@@ -38,6 +38,7 @@ namespace SISTEMA_DEFENSA_API.EL.Models
         public int IdAddress { get; set; }
 
         // Relación con Address
+        [ForeignKey("IdAddress")]
         public Address? Address { get; set; }
     }
 }
