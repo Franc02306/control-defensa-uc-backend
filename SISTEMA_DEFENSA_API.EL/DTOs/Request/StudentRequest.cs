@@ -15,8 +15,8 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Request
         [Required(ErrorMessage = "El campo Apellido es obligatorio")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "El campo género es obligatorio")]
-        public char Gender { get; set; }
+        [Required(ErrorMessage = "El campo Género es obligatorio")]
+        public string Gender { get; set; }
 
         [Required(ErrorMessage = "El campo Fecha de Nacimiento es obligatorio")]
         public DateTime BirthDate { get; set; }

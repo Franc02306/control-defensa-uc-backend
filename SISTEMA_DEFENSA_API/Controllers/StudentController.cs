@@ -33,5 +33,19 @@ namespace SISTEMA_DEFENSA_API.Controllers
                 return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
             }
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteStudent(int id)
+        {
+            try
+            {
+                _studentService.DeleteStudent(id);
+                return Ok(ApiResponse<string>.SuccessResponse(null, "Estudiante eliminado correctamente"));
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+        }
     }
 }

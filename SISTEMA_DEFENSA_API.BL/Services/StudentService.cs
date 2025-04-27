@@ -72,7 +72,8 @@ namespace SISTEMA_DEFENSA_API.BL.Services
         public void DeleteStudent(int id)
         {
             var student = _context.Students.FirstOrDefault(s => s.Id == id);
-            if (student == null) throw new Exception("El estudiante no existe");
+            if (student == null) 
+                throw new Exception("El estudiante no existe");
 
             _context.Students.Remove(student);
             _context.SaveChanges();

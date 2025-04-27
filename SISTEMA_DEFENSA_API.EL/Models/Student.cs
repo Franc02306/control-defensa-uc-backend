@@ -20,7 +20,7 @@ namespace SISTEMA_DEFENSA_API.EL.Models
         public string LastName { get; set; }
 
         [Column("GENDER")]
-        public char Gender { get; set; }
+        public string Gender { get; set; }
 
         [Column("BIRTH_DATE")]
         public DateTime BirthDate { get; set; }
