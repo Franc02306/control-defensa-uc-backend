@@ -203,9 +203,9 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             };
         }
 
-        public List<StudentResponse> SearchStudents(string? name)
+        public List<StudentResponse> SearchStudents(string? name, int? year, string? province)
         {
-            return _studentSQ.SearchStudents(name);
+            return _studentSQ.SearchStudents(name, year, province);
         }
 
         public decimal GetAverageAge(int year, string province)

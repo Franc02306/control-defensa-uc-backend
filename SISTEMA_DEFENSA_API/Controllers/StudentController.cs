@@ -89,9 +89,9 @@ namespace SISTEMA_DEFENSA_API.Controllers
         }
 
         [HttpGet("search")]
-        public IActionResult SearchStudents([FromQuery] string? name)
+        public IActionResult SearchStudents([FromQuery] string? name, [FromQuery] int? year, [FromQuery] string? province)
         {
-            var students = _studentService.SearchStudents(name);
+            var students = _studentService.SearchStudents(name, year, province);
 
             return Ok(ApiResponse<List<StudentResponse>>.SuccessResponse(students, "Consulta realizada exitosamente"));
         }

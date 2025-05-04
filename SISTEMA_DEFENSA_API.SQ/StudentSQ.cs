@@ -2,6 +2,7 @@
 using SISTEMA_DEFENSA_API.EL.DTOs.Response;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using SISTEMA_DEFENSA_API.EL.Models;
 
 namespace SISTEMA_DEFENSA_API.SQ
 {
@@ -14,12 +15,14 @@ namespace SISTEMA_DEFENSA_API.SQ
             _context = context;
         }
 
-        public List<StudentResponse> SearchStudents(string? name)
+        public List<StudentResponse> SearchStudents(string? name, int? year, string? province)
         {
-            var param = new SqlParameter("@Name", name ?? (object)DBNull.Value);
+            var paramName = new SqlParameter("@Name", name ?? (object)DBNull.Value);
+            var paramYear = new SqlParameter("@Year", year ?? (object)DBNull.Value);
+            var paramProvince = new SqlParameter("@Province", province ?? (object)DBNull.Value);
 
             var students = _context.StudentSearchResults
-                .FromSqlRaw("EXEC UC_SP_SEARCH_STUDENTS @Name", param)
+                .FromSqlRaw("EXEC UC_SP_SEARCH_STUDENTS @Name, @Year, @Province", paramName, paramYear, paramProvince)
                 .ToList();
 
             var result = students.Select(s => new StudentResponse
