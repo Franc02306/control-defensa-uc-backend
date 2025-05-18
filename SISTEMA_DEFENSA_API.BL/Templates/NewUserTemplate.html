@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nuevo Usuario Registrado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .header-img {
+            width: 100%;
+            max-width: 600px;
+            display: block;
+            margin: auto;
+            border-radius: 8px 8px 0 0;
+        }
+
+        h2 {
+            color: #007bff;
+            text-align: center;
+            background-color: #e9f5ff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        p {
+            color: #555555;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .button-container {
+            margin-top: 15px;
+            text-align: center; /* Asegura que estén centrados */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit; /* Evita el color azul subrayado */
+        }
+
+        .button {
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-red {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+
+        .button-red:hover {
+            background-color: #c82333;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            text-align: center;
+            color: #ffffff;
+            background-color: #343a40;
+            padding: 10px 0;
+            border-radius: 0 0 8px 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Imagen de la UC desde la URL pública -->
+        <img src="https://www.uma.es/media/fotos/image_71768.png" alt="Universidad de Camagüey" class="header-img" style="width: 100%; max-width: 600px; height: auto; display: block; margin: auto;">
+
+        <h2>Nuevo Usuario Registrado</h2>
+        <p>Hola administrador {{AdminName}},</p>
+        <p>Un nuevo usuario se ha registrado en el sistema con los siguientes datos:</p>
+        <p><strong>Nombre Completo:</strong> {{FirstName}} {{LastName}}</p>
+        <p>
+            <strong>Correo:</strong>
+            <a href="mailto:{{Email}}"
+               style="color: #007bff; text-decoration: none; font-weight: bold;">
+                {{Email}}
+            </a>
+        </p>
+        <p>Por favor, revise y apruebe al usuario si cree conveniente, caso contrario rechace al usuario para evitar su ingreso al sistema web.</p>
+
+        <div class="button-container">
+            <a href="{{ApprovalLink}}"
+               style="background-color: #28a745; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; margin: 5px; font-weight: bold; text-align: center;">
+                Aprobar Registro
+            </a>
+            <a href="{{RejectionLink}}"
+               style="background-color: #dc3545; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block; margin: 5px; font-weight: bold; text-align: center;">
+                Rechazar Registro
+            </a>
+        </div>
+
+        <div class="footer">
+            Sistema Defensa UC - Notificación Automática
+        </div>
+    </div>
+</body>
+</html>

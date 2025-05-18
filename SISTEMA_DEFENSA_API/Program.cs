@@ -22,6 +22,7 @@ builder.Services.AddScoped<LocationService>();
 builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<StudentSQ>();
+builder.Services.AddScoped<EmailService>();
 
 // Configuración de JWT
 var jwtConfig = builder.Configuration.GetSection("Jwt");

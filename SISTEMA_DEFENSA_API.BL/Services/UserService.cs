@@ -8,10 +8,12 @@ namespace SISTEMA_DEFENSA_API.BL.Services
     public class UserService
     {
         private readonly DefenseDbContext _context;
+        private readonly EmailService _emailService;
 
-        public UserService(DefenseDbContext context)
+        public UserService(DefenseDbContext context, EmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         public User CreateUser(UserNewRequest request)
@@ -25,6 +27,12 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             if (!PasswordValidator.IsStrong(request.Password))
                 throw new Exception("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo");
 
+            // Verificar que el rol sea válido
+            var role = _context.Roles.FirstOrDefault(r => r.Id == request.IdRole);
+
+            if (role == null)
+                throw new Exception("El rol especificado no existe");
+
             var newUser = new User
             {
                 FirstName = request.FirstName,
@@ -33,11 +41,28 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 Email = request.Email,
                 Password = PasswordHasher.Hash(request.Password),
                 Status = request.Status,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                IdRole = request.IdRole
             };
 
             _context.Users.Add(newUser);
             _context.SaveChanges();
+
+            // Enviar correo a los administradores
+            try
+            {
+                _emailService.SendEmailToAdminsUsingTemplate(
+                    _context,
+                    newUser.FirstName,
+                    newUser.LastName,
+                    newUser.Email
+                );
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores de correo, pero sin afectar la creación del usuario
+                Console.WriteLine($"Error al enviar correo a administradores: {ex.Message}");
+            }
 
             return newUser;
         }

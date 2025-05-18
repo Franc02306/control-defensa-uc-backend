@@ -33,5 +33,12 @@ namespace SISTEMA_DEFENSA_API.EL.Models
 
         [Column("CREATED_AT")]
         public DateTime CreatedAt { get; set; }
+
+        [Column("ID_ROLE")]
+        public int IdRole { get; set; }
+
+        // Relación con Role
+        [ForeignKey("IdRole")]
+        public Role? Role { get; set; }
     }
 }

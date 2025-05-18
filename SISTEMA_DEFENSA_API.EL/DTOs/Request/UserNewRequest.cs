@@ -25,6 +25,6 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Request
         [Required(ErrorMessage = "La contraseña es obligatoria")]
         public string Password { get; set; }
         public bool Status { get; set; }
-        //public DateTime CreatedAt { get; set; }
+        public int IdRole { get; set; }
     }
 }

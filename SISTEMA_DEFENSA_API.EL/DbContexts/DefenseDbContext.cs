@@ -19,6 +19,7 @@ namespace SISTEMA_DEFENSA_API.EL.DbContexts
         public DbSet<Municipality> Municipalities { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<StudentsGetResponse> StudentSearchResults { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

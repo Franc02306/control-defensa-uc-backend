@@ -35,7 +35,8 @@ namespace SISTEMA_DEFENSA_API.Controllers
                     Username = user.Username,
                     Email = user.Email,
                     Status = user.Status,
-                    CreatedAt = user.CreatedAt
+                    CreatedAt = user.CreatedAt,
+                    IdRole = user.IdRole
                 };
 
                 return CreatedAtAction(nameof(CreateUser), new { id = response.Id }, 

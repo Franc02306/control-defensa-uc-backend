@@ -15,5 +15,6 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Response
         public string Email { get; set; }
         public bool Status { get; set; }
         public DateTime CreatedAt { get; set; }
+        public int IdRole { get; set; }
     }
 }
