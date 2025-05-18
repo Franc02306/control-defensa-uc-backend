@@ -46,6 +46,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
             // Leer las rutas directamente desde el appsettings.json
             var templatePath = _configuration["EmailTemplates:TemplatePath"];
+            var imageUrl = _configuration["EmailTemplates:ImageUrl"];
 
             if (string.IsNullOrWhiteSpace(templatePath) || !File.Exists(templatePath))
                 throw new FileNotFoundException($"La plantilla de correo no se encontró en: {templatePath}");
@@ -60,6 +61,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                     .Replace("{{FirstName}}", firstName)
                     .Replace("{{LastName}}", lastName)
                     .Replace("{{Email}}", email)
+                    .Replace("{{ImageUrl}}", imageUrl)
                     .Replace("{{ApprovalLink}}", $"https://tusistema.com/approve?email={email}")
                     .Replace("{{RejectionLink}}", $"https://tusistema.com/reject?email={email}");
 
