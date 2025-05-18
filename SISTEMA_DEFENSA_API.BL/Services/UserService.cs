@@ -2,6 +2,9 @@
 using SISTEMA_DEFENSA_API.EL.DbContexts;
 using SISTEMA_DEFENSA_API.EL.DTOs.Request;
 using SISTEMA_DEFENSA_API.EL.Models;
+using System.Net.Mail;
+using System.Transactions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SISTEMA_DEFENSA_API.BL.Services
 {
@@ -18,53 +21,62 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
         public User CreateUser(UserNewRequest request)
         {
-            if (_context.Users.Any(u => u.Username == request.Username))
-                throw new Exception("El nombre de usuario ya existe");
-
-            if (_context.Users.Any(u => u.Email == request.Email))
-                throw new Exception("El correo electrónico ya existe");
-
-            if (!PasswordValidator.IsStrong(request.Password))
-                throw new Exception("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo");
-
-            // Verificar que el rol sea válido
-            var role = _context.Roles.FirstOrDefault(r => r.Id == request.IdRole);
-
-            if (role == null)
-                throw new Exception("El rol especificado no existe");
-
-            var newUser = new User
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Username = request.Username,
-                Email = request.Email,
-                Password = PasswordHasher.Hash(request.Password),
-                Status = request.Status,
-                CreatedAt = DateTime.Now,
-                IdRole = request.IdRole
-            };
+                try
+                {
+                    if (_context.Users.Any(u => u.Username == request.Username))
+                        throw new Exception("El nombre de usuario ya existe");
 
-            _context.Users.Add(newUser);
-            _context.SaveChanges();
+                    if (_context.Users.Any(u => u.Email == request.Email))
+                        throw new Exception("El correo electrónico ya existe");
 
-            // Enviar correo a los administradores
-            try
-            {
-                _emailService.SendEmailToAdminsUsingTemplate(
-                    _context,
-                    newUser.FirstName,
-                    newUser.LastName,
-                    newUser.Email
-                );
+                    if (!PasswordValidator.IsStrong(request.Password))
+                        throw new Exception("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo");
+
+                    // Verificar que el rol sea válido
+                    var role = _context.Roles.FirstOrDefault(r => r.Id == request.IdRole);
+
+                    if (role == null)
+                        throw new Exception("El rol especificado no existe");
+
+                    var newUser = new User
+                    {
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        Username = request.Username,
+                        Email = request.Email,
+                        Password = PasswordHasher.Hash(request.Password),
+                        Status = request.Status,
+                        CreatedAt = DateTime.Now,
+                        IdRole = request.IdRole
+                    };
+
+                    _context.Users.Add(newUser);
+                    _context.SaveChanges();
+
+                    // Se envia el correo a los administradores
+                    _emailService.SendEmailToAdminsUsingTemplate(_context, newUser.FirstName, newUser.LastName, newUser.Email);
+
+                    // Confirmamos transacción en caso el correo se ha enviado correctamente
+                    transaction.Commit();
+
+                    return newUser;
+                }
+                catch (SmtpException smtpEx)
+                {
+                    // Revertimos transacción por error SMTP (Correo)
+                    transaction.Rollback();
+                    throw new Exception($"Error al crear el usuario: No se pudo enviar el correo de notificación. Verifique la configuración del servidor de correo. Detalles: {smtpEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Revertimos transacción por si cae una excepción
+                    transaction.Rollback();
+                    throw new Exception($"Error al crear el usuario: {ex.Message}");
+                }
             }
-            catch (Exception ex)
-            {
-                // Manejo de errores de correo, pero sin afectar la creación del usuario
-                Console.WriteLine($"Error al enviar correo a administradores: {ex.Message}");
-            }
-
-            return newUser;
+            
         }
 
         public User UpdateUser(int id, UserUpdateRequest request)
