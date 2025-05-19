@@ -92,5 +92,33 @@ namespace SISTEMA_DEFENSA_API.Controllers
                 return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
             }
         }
+
+        [HttpPost("approve")]
+        public IActionResult ApproveUser([FromQuery] string email)
+        {
+            try
+            {
+                var result = _userService.ApproveUser(email);
+                return Ok(ApiResponse<string>.SuccessResponse(null, result));
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+        }
+
+        [HttpPost("reject")]
+        public IActionResult RejectUser([FromQuery] string email)
+        {
+            try
+            {
+                var result = _userService.RejectUser(email);
+                return Ok(ApiResponse<string>.SuccessResponse(null, result));
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+        }
     }
 }

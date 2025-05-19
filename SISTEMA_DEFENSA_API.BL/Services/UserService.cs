@@ -1,4 +1,5 @@
-﻿using SISTEMA_DEFENSA_API.BL.Utils;
+﻿using Microsoft.EntityFrameworkCore.Storage.Json;
+using SISTEMA_DEFENSA_API.BL.Utils;
 using SISTEMA_DEFENSA_API.EL.DbContexts;
 using SISTEMA_DEFENSA_API.EL.DTOs.Request;
 using SISTEMA_DEFENSA_API.EL.Models;
@@ -76,7 +77,6 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                     throw new Exception($"Error al crear el usuario: {ex.Message}");
                 }
             }
-            
         }
 
         public User UpdateUser(int id, UserUpdateRequest request)
@@ -133,6 +133,88 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
             user.Status = false;
             _context.SaveChanges();
+        }
+
+        public string ApproveUser(string email)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var user = _context.Users.FirstOrDefault(u => u.Email == email);
+                    if (user == null)
+                        throw new Exception("Usuario no encontrado");
+
+                    if (user.Status)
+                        throw new Exception("El usuario ya está aprobado");
+
+                    _emailService.SendActionEmail(
+                        user.Email,
+                        "aprobado",
+                        user.FirstName,
+                        user.LastName
+                    );
+
+                    user.Status = true;
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                    return "Usuario aprobado exitosamente";
+                }
+                catch (SmtpException smtpEx)
+                {
+                    // Revertimos transacción por error SMTP (Correo)
+                    transaction.Rollback();
+                    throw new Exception($"Error al aprobar el usuario: No se pudo enviar el correo de notificación. Detalles: {smtpEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Revertimos transacción por si cae una excepción
+                    transaction.Rollback();
+                    throw new Exception($"Error al aprobar el usuario: {ex.Message}");
+                }
+            }
+        }
+
+        public string RejectUser(string email)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var user = _context.Users.FirstOrDefault(u => u.Email == email);
+                    if (user == null)
+                        throw new Exception("Usuario no encontrado");
+
+                    if (user.Status)
+                        throw new Exception("El usuario ya está aprobado. No se puede rechazar");
+
+                    _emailService.SendActionEmail(
+                        user.Email,
+                        "rechazado",
+                        user.FirstName,
+                        user.LastName
+                    );
+
+                    _context.Users.Remove(user);
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                    return "Usuario rechazado correctamente.";
+                }
+                catch (SmtpException smtpEx)
+                {
+                    // Revertimos transacción por error SMTP (Correo)
+                    transaction.Rollback();
+                    throw new Exception($"Error al rechazar el usuario: No se pudo enviar el correo de notificación. Detalles: {smtpEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Revertimos transacción por si cae una excepción
+                    transaction.Rollback();
+                    throw new Exception($"Error al rechazar el usuario: {ex.Message}");
+                }
+            }
         }
     }
 }

@@ -42,10 +42,10 @@ namespace SISTEMA_DEFENSA_API.BL.Services
         public void SendEmailToAdminsUsingTemplate(DefenseDbContext context, string firstName, string lastName, string email)
         {
             var admins = context.Users.Where(u => u.IdRole == 1 && u.Status).ToList();
-            string subject = "Nuevo Usuario Registrado (Pendiente de Aprobación)";
+            string subject = "Nuevo Usuario Registrado - Pendiente de Aprobación";
 
             // Leer las rutas directamente desde el appsettings.json
-            var templatePath = _configuration["EmailTemplates:TemplatePath"];
+            var templatePath = _configuration["EmailTemplates:NewUserTemplatePath"];
             var imageUrl = _configuration["EmailTemplates:ImageUrl"];
 
             if (string.IsNullOrWhiteSpace(templatePath) || !File.Exists(templatePath))
@@ -67,6 +67,39 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
                 SendEmail(admin.Email, subject, personalizedBody);
             }
+        }
+
+        public void SendActionEmail(string to, string actionType, string firstName = "", string lastName = "")
+        {
+            var templatePath = _configuration["EmailTemplates:ActionTemplatePath"];
+            var imageUrl = _configuration["EmailTemplates:ImageUrl"];
+
+            if (string.IsNullOrWhiteSpace(templatePath) || !File.Exists(templatePath))
+                throw new FileNotFoundException($"La plantilla de correo no se encontró en: {templatePath}");
+
+            string templateContent = File.ReadAllText(templatePath);
+
+            // Determinar el contenido según el tipo de correo
+            string emailTitle = "";
+            string emailBody = "";
+
+            if (actionType == "aprobado")
+            {
+                emailTitle = "Registro Aprobado";
+                emailBody = $"Hola <strong>{firstName} {lastName}</strong>, tu cuenta ha sido aprobada. ¡Ya puedes iniciar sesión en el sistema con tus credenciales!";
+            }
+            else if (actionType == "rechazado")
+            {
+                emailTitle = "Registro Rechazado";
+                emailBody = $"Hola <strong>{firstName} {lastName}</strong>, lamentamos informarte que tu registro ha sido rechazado. Si tienes dudas, contacta al administrador.";
+            }
+
+            string personalizedBody = templateContent
+                .Replace("{{EmailTitle}}", emailTitle)
+                .Replace("{{EmailBody}}", emailBody)
+                .Replace("{{ImageUrl}}", imageUrl);
+
+            SendEmail(to, emailTitle, personalizedBody);
         }
     }
 }
