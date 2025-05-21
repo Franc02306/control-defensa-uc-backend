@@ -93,11 +93,20 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             // Determinar el contenido según el tipo de correo
             string emailTitle = "";
             string emailBody = "";
+            string loginButtonHtml = "";
 
             if (actionType == "aprobado")
             {
                 emailTitle = "Registro Aprobado";
                 emailBody = $"Hola <strong>{firstName} {lastName}</strong>, tu cuenta ha sido aprobada. ¡Ya puedes iniciar sesión en el sistema con tus credenciales!";
+
+                loginButtonHtml = $@"
+                <div style='text-align: center; margin-top: 20px;'>
+                    <a href='{loginLink}'
+                       style='background-color: #28a745; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;'>
+                        Acceder al Sistema
+                    </a>
+                </div>";
             }
             else if (actionType == "rechazado")
             {
@@ -109,7 +118,8 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 .Replace("{{EmailTitle}}", emailTitle)
                 .Replace("{{EmailBody}}", emailBody)
                 .Replace("{{ImageUrl}}", imageUrl)
-                .Replace("{{LoginLink}}", loginLink);
+                .Replace("{{LoginLink}}", loginLink)
+                .Replace("{{LoginButton}}", loginButtonHtml);
 
             SendEmail(to, emailTitle, personalizedBody);
         }
