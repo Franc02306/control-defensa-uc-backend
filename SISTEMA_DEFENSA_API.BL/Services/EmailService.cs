@@ -48,6 +48,9 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             var templatePath = _configuration["EmailTemplates:NewUserTemplatePath"];
             var imageUrl = _configuration["EmailTemplates:ImageUrl"];
 
+            var isProduction = bool.Parse(_configuration["EmailTemplates:IsProduction"]);
+            var baseUrl = isProduction ? _configuration["EmailTemplates:BaseUrlProd"] : _configuration["EmailTemplates:BaseUrlDev"];
+
             if (string.IsNullOrWhiteSpace(templatePath) || !File.Exists(templatePath))
                 throw new FileNotFoundException($"La plantilla de correo no se encontró en: {templatePath}");
 
@@ -55,6 +58,10 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
             foreach (var admin in admins)
             {
+                // Construir los endpoints de aprobación y rechazo de forma dinámica
+                string approvalLink = $"{baseUrl}api/user/approve?email={email}";
+                string rejectionLink = $"{baseUrl}api/user/reject?email={email}";
+
                 // Personalizar el contenido del correo para cada administrador
                 string personalizedBody = templateContent
                     .Replace("{{AdminName}}", admin.FirstName)
@@ -62,8 +69,8 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                     .Replace("{{LastName}}", lastName)
                     .Replace("{{Email}}", email)
                     .Replace("{{ImageUrl}}", imageUrl)
-                    .Replace("{{ApprovalLink}}", $"https://tusistema.com/approve?email={email}")
-                    .Replace("{{RejectionLink}}", $"https://tusistema.com/reject?email={email}");
+                    .Replace("{{ApprovalLink}}", approvalLink)
+                    .Replace("{{RejectionLink}}", rejectionLink);
 
                 SendEmail(admin.Email, subject, personalizedBody);
             }
@@ -73,6 +80,10 @@ namespace SISTEMA_DEFENSA_API.BL.Services
         {
             var templatePath = _configuration["EmailTemplates:ActionTemplatePath"];
             var imageUrl = _configuration["EmailTemplates:ImageUrl"];
+
+            var isProduction = bool.Parse(_configuration["EmailTemplates:IsProduction"]);
+            var baseUrl = isProduction ? _configuration["EmailTemplates:BaseUrlProd"] : _configuration["EmailTemplates:BaseUrlDev"];
+            var loginLink = $"{baseUrl}login";
 
             if (string.IsNullOrWhiteSpace(templatePath) || !File.Exists(templatePath))
                 throw new FileNotFoundException($"La plantilla de correo no se encontró en: {templatePath}");
@@ -97,7 +108,8 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             string personalizedBody = templateContent
                 .Replace("{{EmailTitle}}", emailTitle)
                 .Replace("{{EmailBody}}", emailBody)
-                .Replace("{{ImageUrl}}", imageUrl);
+                .Replace("{{ImageUrl}}", imageUrl)
+                .Replace("{{LoginLink}}", loginLink);
 
             SendEmail(to, emailTitle, personalizedBody);
         }

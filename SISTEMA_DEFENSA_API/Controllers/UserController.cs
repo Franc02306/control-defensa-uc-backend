@@ -93,6 +93,7 @@ namespace SISTEMA_DEFENSA_API.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPost("approve")]
         public IActionResult ApproveUser([FromQuery] string email)
         {
@@ -107,6 +108,7 @@ namespace SISTEMA_DEFENSA_API.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPost("reject")]
         public IActionResult RejectUser([FromQuery] string email)
         {

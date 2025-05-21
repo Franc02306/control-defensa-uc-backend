@@ -39,11 +39,14 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            var role = _context.Roles.FirstOrDefault(r => r.Id == user.IdRole)?.Name ?? "Regular";
+
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("userId", user.Id.ToString())
+                new Claim("userId", user.Id.ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
 
             var token = new JwtSecurityToken(

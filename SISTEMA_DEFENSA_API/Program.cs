@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SISTEMA_DEFENSA_API.EL.Models;
+using System.Security.Claims;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.PatternContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +46,7 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtConfig["Issuer"],
         ValidAudience = jwtConfig["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key),
+        RoleClaimType = ClaimTypes.Role,
         ClockSkew = TimeSpan.Zero
     };
 
@@ -59,6 +62,21 @@ builder.Services.AddAuthentication(options =>
             {
                 success = false,
                 message = "Acceso no autorizado",
+                data = (object)null
+            };
+
+            var json = System.Text.Json.JsonSerializer.Serialize(response);
+            return context.Response.WriteAsync(json);
+        },
+        OnForbidden = context =>
+        {
+            context.Response.StatusCode = 403;
+            context.Response.ContentType = "application/json";
+
+            var response = new
+            {
+                success = false,
+                message = "Acceso denegado. No cuentas con los permisos necesarios para realizar esta acción.",
                 data = (object)null
             };
 
