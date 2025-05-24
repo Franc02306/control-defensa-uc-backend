@@ -59,8 +59,8 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             foreach (var admin in admins)
             {
                 // Construir los endpoints de aprobación y rechazo de forma dinámica
-                string approvalLink = $"{baseUrl}api/user/approve?email={email}";
-                string rejectionLink = $"{baseUrl}api/user/reject?email={email}";
+                string approvalLink = $"{baseUrl}aprobacion-resultado?type=approve&email={email}";
+                string rejectionLink = $"{baseUrl}aprobacion-resultado?type=reject&email={email}";
 
                 // Personalizar el contenido del correo para cada administrador
                 string personalizedBody = templateContent
