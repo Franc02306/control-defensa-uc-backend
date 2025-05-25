@@ -24,6 +24,9 @@ builder.Services.AddScoped<LocationService>();
 builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<StudentSQ>();
+builder.Services.AddScoped<ProfessorService>();
+builder.Services.AddScoped<ProfessorSQ>();
+builder.Services.AddScoped<ComplementService>();
 builder.Services.AddScoped<EmailService>();
 
 // Configuración de JWT

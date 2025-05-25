@@ -21,6 +21,10 @@ namespace SISTEMA_DEFENSA_API.EL.DbContexts
         public DbSet<StudentsGetResponse> StudentSearchResults { get; set; }
         public DbSet<ProfessorGetResponse> ProfessorSearchResults { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Major> Majors { get; set; }
+        public DbSet<Area> Areas { get; set; }
+        public DbSet<ScientificCategory> ScientificCategories { get; set; }
+        public DbSet<AcademicRank> AcademicRanks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
