@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SISTEMA_DEFENSA_API.EL.DTOs.Request
 {
-    public class StudentNewRequest
+    public class ProfessorNewRequest
     {
         [Required(ErrorMessage = "El campo Nombre es obligatorio")]
         public string FirstName { get; set; }
@@ -21,14 +21,17 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Request
         [Required(ErrorMessage = "El campo Fecha de Nacimiento es obligatorio")]
         public DateTime BirthDate { get; set; }
 
-        [Required(ErrorMessage = "El campo Carrera es obligatorio")]
-        public string Major { get; set; }
+        [Required(ErrorMessage = "El campo Área es obligatorio")]
+        public string Area { get; set; }
 
-        [Required(ErrorMessage = "El campo Año es obligatorio")]
-        public int Year { get; set; }
+        [Required(ErrorMessage = "Se debe saber si el profesor Salió al Extranjero")]
+        public bool WentAbroad { get; set; }
 
-        [Required(ErrorMessage = "El campo Promedio Docente es obligatorio")]
-        public decimal TeacherAverage { get; set; }
+        [Required(ErrorMessage = "El campo Categoría Docente es obligatorio")]
+        public string AcademicRank { get; set; }
+
+        [Required(ErrorMessage = "El campo Categoría Científica es obligatorio")]
+        public string ScientificCategory { get; set; }
 
         // Relacion DireccionRequest
         [Required(ErrorMessage = "El campo Dirección es obligatorio")]
