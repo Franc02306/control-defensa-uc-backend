@@ -10,7 +10,7 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Response
     {
         public bool Success { get; set; }
         public string Message { get; set; } = string.Empty;
-        public T? Data { get; set; }
+        public T? Result { get; set; }
 
         public ApiResponse() { }
 
@@ -18,7 +18,7 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Response
         {
             Success = success;
             Message = message;
-            Data = data;
+            Result = data;
         }
 
         // Métodos de fábrica

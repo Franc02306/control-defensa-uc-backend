@@ -189,7 +189,9 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 Address = new AddressResponse
                 {
                     Id = professor.Address.Id,
+                    IdProvince = professor.Address.IdProvince,
                     Province = professor.Address.Province?.Name ?? string.Empty,
+                    IdMunicipality = professor.Address.IdMunicipality,
                     Municipality = professor.Address.Municipality?.Name ?? string.Empty,
                     Street = professor.Address.Street,
                     Number = professor.Address.Number
