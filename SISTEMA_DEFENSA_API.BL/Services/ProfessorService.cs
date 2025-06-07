@@ -137,6 +137,8 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 existingProfessor.IdAddress = address.Id;
             }
 
+            _context.SaveChanges();
+
             // Traer al profesor actualizado con su Dirección incluida para evitar errores
             var reloadedProfessor = _context.Professors
                 .Where(p => p.Id == id)
