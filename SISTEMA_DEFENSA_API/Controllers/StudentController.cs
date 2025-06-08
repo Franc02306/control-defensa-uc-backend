@@ -123,5 +123,26 @@ namespace SISTEMA_DEFENSA_API.Controllers
                 return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
             }
         }
+
+        [HttpGet("suggest")]
+        public IActionResult SuggestStudents([FromQuery] string query)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(query))
+                    return Ok(ApiResponse<List<StudentSuggestResponse>>.SuccessResponse(
+                        new List<StudentSuggestResponse>(), "Consulta realizada exitosamente"));
+
+                // Llama al servicio para obtener sugerencias (solo id, nombre y apellido)
+                var suggestions = _studentService.SuggestStudents(query);
+
+                return Ok(ApiResponse<List<StudentSuggestResponse>>.SuccessResponse(
+                    suggestions, "Consulta realizada exitosamente"));
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+        }
     }
 }

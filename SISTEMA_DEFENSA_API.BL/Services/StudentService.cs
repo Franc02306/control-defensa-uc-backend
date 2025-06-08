@@ -226,6 +226,24 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             return _studentSQ.GetAverageAgeStudents(year, province);
         }
 
+        public List<StudentSuggestResponse> SuggestStudents(string query)
+        {
+            return _context.Students
+                .Where(s =>
+                    s.FirstName.Contains(query) ||
+                    s.LastName.Contains(query))
+                .OrderBy(s => s.FirstName)
+                .ThenBy(s => s.LastName)
+                .Select(s => new StudentSuggestResponse
+                {
+                    Id = s.Id,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName
+                })
+                .Take(20) // Limita a 20 sugerencias
+                .ToList();
+        }
+
         private StudentResponse MapToResponse(Student student, Address address)
         {
             var provinceName = _context.Provinces.First(p => p.Id == address.IdProvince).Name;
