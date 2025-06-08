@@ -25,6 +25,9 @@ namespace SISTEMA_DEFENSA_API.EL.Models
         [Column("BIRTH_DATE")]
         public DateTime BirthDate { get; set; }
 
+        [Column("AGE")]
+        public int Age { get; set; }
+
         [Column("MAJOR")]
         public string Major { get; set; }
 

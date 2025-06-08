@@ -11,6 +11,7 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Request
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTime? BirthDate { get; set; }
+        public int? Age { get; set; }
         public string? Major { get; set; }
         public int? Year { get; set; }
         public decimal? TeacherAverage { get; set; }

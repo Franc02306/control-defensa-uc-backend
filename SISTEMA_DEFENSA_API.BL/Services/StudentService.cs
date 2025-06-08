@@ -25,10 +25,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 throw new Exception("La Fecha de Nacimiento no puede ser mayor a la fecha actual");
 
             // Validar que el estudiante tenga al menos 18 años
-            var today = DateTime.Today;
-            var age = today.Year - request.BirthDate.Year;
-            if (request.BirthDate.Date > today.AddYears(-age)) age--;
-            if (age < 18)
+            if (request.Age < 18)
                 throw new Exception("El estudiante debe ser mayor a 18 años");
 
             // Validar valores entre 0 a 20 en promedio de docente para el estudiante
@@ -68,6 +65,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 LastName = request.LastName,
                 Gender = request.Gender,
                 BirthDate = request.BirthDate,
+                Age = request.Age,
                 Major = request.Major,
                 Year = request.Year,
                 TeacherAverage = request.TeacherAverage,
