@@ -100,19 +100,16 @@ namespace SISTEMA_DEFENSA_API.BL.Services
 
             if (request.BirthDate.HasValue)
             {
-                var newBirthDate = request.BirthDate.Value;
-
-                if (newBirthDate.Date > DateTime.Now.Date)
+                if (request.BirthDate.Value.Date > DateTime.Now.Date)
                     throw new Exception("La Fecha de Nacimiento no puede ser mayor a la fecha actual");
 
-                // Validar que tenga al menos 18 años
-                var today = DateTime.Today;
-                var age = today.Year - newBirthDate.Year;
-                if (newBirthDate.Date > today.AddYears(-age)) age--;
-                if (age < 18)
-                    throw new Exception("El estudiante debe ser mayor de 18 años");
+                existingStudent.BirthDate = request.BirthDate.Value;
 
-                existingStudent.BirthDate = newBirthDate;
+                // Validar que el estudiante tenga al menos 18 años
+                if (request.Age < 18)
+                    throw new Exception("El estudiante debe ser mayor a 18 años");
+
+                existingStudent.Age = request.Age ?? 0;
             }
 
             if (request.TeacherAverage.HasValue)

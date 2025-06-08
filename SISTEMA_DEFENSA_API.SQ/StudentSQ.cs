@@ -32,6 +32,7 @@ namespace SISTEMA_DEFENSA_API.SQ
                 LastName = s.LastName,
                 Gender = s.Gender,
                 BirthDate = s.BirthDate,
+                Age = s.Age,
                 Major = s.Major,
                 Year = s.Year,
                 TeacherAverage = s.TeacherAverage,

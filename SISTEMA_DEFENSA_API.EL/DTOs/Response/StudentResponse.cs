@@ -14,6 +14,7 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Response
         public string LastName { get; set; }
         public char Gender { get; set; }
         public DateTime BirthDate { get; set; }
+        public int Age { get; set; }
         public string Major { get; set; }
         public int Year { get; set; }
         public decimal TeacherAverage { get; set; }
