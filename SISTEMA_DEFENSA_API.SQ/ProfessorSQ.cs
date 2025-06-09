@@ -34,6 +34,7 @@ namespace SISTEMA_DEFENSA_API.SQ
                 LastName = p.LastName,
                 Gender = p.Gender,
                 BirthDate = p.BirthDate,
+                Age = p.Age,
                 Area = p.Area,
                 WentAbroad = p.WentAbroad,
                 AcademicRank = p.AcademicRank,

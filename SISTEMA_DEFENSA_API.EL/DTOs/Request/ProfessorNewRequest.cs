@@ -21,6 +21,9 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Request
         [Required(ErrorMessage = "El campo Fecha de Nacimiento es obligatorio")]
         public DateTime BirthDate { get; set; }
 
+        [Required(ErrorMessage = "El campo Edad es obligatorio")]
+        public int Age { get; set; }
+
         [Required(ErrorMessage = "El campo Área es obligatorio")]
         public string Area { get; set; }
 

@@ -13,6 +13,7 @@ namespace SISTEMA_DEFENSA_API.EL.DTOs.Response
         public string LastName { get; set; }
         public char Gender { get; set; }
         public DateTime BirthDate { get; set; }
+        public int Age { get; set; }
         public string Area { get; set; }
         public bool WentAbroad { get; set; }
         public string AcademicRank { get; set; }

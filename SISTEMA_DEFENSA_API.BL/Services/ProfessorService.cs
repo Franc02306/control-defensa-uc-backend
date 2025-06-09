@@ -24,6 +24,10 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             if (request.BirthDate.Date > DateTime.Now.Date)
                 throw new Exception("La Fecha de Nacimiento no puede ser mayor a la fecha actual");
 
+            // Validar que el estudiante tenga al menos 18 años
+            if (request.Age < 18)
+                throw new Exception("El profesor debe ser mayor a 18 años");
+
             var existingAddress = _context.Addresses.FirstOrDefault(a =>
                 a.IdProvince == request.Address.IdProvince &&
                 a.IdMunicipality == request.Address.IdMunicipality &&
@@ -57,6 +61,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 LastName = request.LastName,
                 Gender = request.Gender,
                 BirthDate = request.BirthDate,
+                Age = request.Age,
                 Area = request.Area,
                 WentAbroad = request.WentAbroad,
                 AcademicRank = request.AcademicRank,
@@ -102,6 +107,12 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                     throw new Exception("La Fecha de Nacimiento no puede ser mayor a la fecha actual");
 
                 existingProfessor.BirthDate = request.BirthDate.Value;
+
+                // Validar que el estudiante tenga al menos 18 años
+                if (request.Age < 18)
+                    throw new Exception("El profesor debe ser mayor a 18 años");
+
+                existingProfessor.Age = request.Age ?? 0;
             }
 
             // VALIDACIONES PARA ACTUALIZAR LA DIRECCION DEL PROFESOR
@@ -184,6 +195,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 LastName = professor.LastName,
                 Gender = professor.Gender,
                 BirthDate = professor.BirthDate,
+                Age = professor.Age,
                 Area = professor.Area,
                 WentAbroad = professor.WentAbroad,
                 AcademicRank = professor.AcademicRank,

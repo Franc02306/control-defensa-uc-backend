@@ -200,6 +200,7 @@ namespace SISTEMA_DEFENSA_API.BL.Services
                 LastName = student.LastName,
                 Gender = student.Gender,
                 BirthDate = student.BirthDate,
+                Age = student.Age,
                 Major = student.Major,
                 Year = student.Year,
                 TeacherAverage = student.TeacherAverage,
