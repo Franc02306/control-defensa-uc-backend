@@ -23,7 +23,7 @@ namespace SISTEMA_DEFENSA_API.Controllers
             return Ok(_locationService.GetAllProvinces());
         }
 
-        [HttpGet("municipality/by-province{provinceId}")]
+        [HttpGet("municipality/by-province/{provinceId}")]
         public ActionResult<List<MunicipalityResponse>> GetMunicipalitiesByProvince(int provinceId)
         {
             return Ok(_locationService.GetMunicipalitiesByProvince(provinceId));

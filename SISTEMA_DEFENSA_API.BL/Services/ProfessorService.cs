@@ -213,9 +213,9 @@ namespace SISTEMA_DEFENSA_API.BL.Services
             };
         }
 
-        public List<ProfessorResponse> SearchProfessors(string? province, string? municipality, bool? wentAbroad, string? academicRank)
+        public List<ProfessorResponse> SearchProfessors(string? province, string? municipality, bool? wentAbroad, string? academicRank, string? area)
         {
-            return _professorSQ.SearchProfessors(province, municipality, wentAbroad, academicRank);
+            return _professorSQ.SearchProfessors(province, municipality, wentAbroad, academicRank, area);
         }
 
         public decimal GetAverageAge(string area,string province, bool wentAbroad)

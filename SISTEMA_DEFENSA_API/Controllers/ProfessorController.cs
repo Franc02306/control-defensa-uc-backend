@@ -90,9 +90,9 @@ namespace SISTEMA_DEFENSA_API.Controllers
         }
 
         [HttpGet("search")]
-        public IActionResult SearchProfessors([FromQuery] string? province, [FromQuery] string? municipality, [FromQuery] bool? wentAbroad, [FromQuery] string? academicRank)
+        public IActionResult SearchProfessors([FromQuery] string? province, [FromQuery] string? municipality, [FromQuery] bool? wentAbroad, [FromQuery] string? academicRank, [FromQuery] string? area)
         {
-            var professors = _professorService.SearchProfessors(province, municipality, wentAbroad, academicRank);
+            var professors = _professorService.SearchProfessors(province, municipality, wentAbroad, academicRank, area);
 
             return Ok(ApiResponse<List<ProfessorResponse>>.SuccessResponse(professors, "Consulta realizada exitosamente"));
         }

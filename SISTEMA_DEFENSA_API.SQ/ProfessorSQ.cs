@@ -15,16 +15,16 @@ namespace SISTEMA_DEFENSA_API.SQ
             _context = context;
         }
 
-        public List<ProfessorResponse> SearchProfessors(string? province, string? municipality, bool? wentAbroad, string? academicRank)
+        public List<ProfessorResponse> SearchProfessors(string? province, string? municipality, bool? wentAbroad, string? academicRank, string? area)
         {
             var paramProvince = new SqlParameter("@Province", province ?? (object)DBNull.Value);
             var paramMunicipality = new SqlParameter("@Municipality", municipality ?? (object)DBNull.Value);
             var paramWentAbroad = new SqlParameter("@WentAbroad", wentAbroad.HasValue ? (object)wentAbroad.Value : DBNull.Value);
             var paramAcademicRank = new SqlParameter("@AcademicRank", academicRank ?? (object)DBNull.Value);
-            var paramArea = new SqlParameter("@Area", DBNull.Value);
+            var paramArea = new SqlParameter("@Area", area ?? (object)DBNull.Value);
 
             var professors = _context.ProfessorSearchResults
-                .FromSqlRaw("EXEC UC_SP_SEARCH_PROFESSORS @Province, @Municipality, @WentAbroad, @AcademicRank", paramProvince, paramMunicipality, paramWentAbroad, paramAcademicRank, paramArea)
+                .FromSqlRaw("EXEC UC_SP_SEARCH_PROFESSORS @Province, @Municipality, @WentAbroad, @AcademicRank, @Area", paramProvince, paramMunicipality, paramWentAbroad, paramAcademicRank, paramArea)
                 .ToList();
 
             var result = professors.Select(p => new ProfessorResponse
