@@ -61,7 +61,7 @@ namespace SISTEMA_DEFENSA_API.SQ
             var paramArea = new SqlParameter("@Area", area ?? (object)DBNull.Value);
 
             var professors = _context.ProfessorSearchResults
-                .FromSqlRaw("EXEC UC_SP_SEARCH_PROFESSORS @Province, @WentAbroad", paramProvince, paramMunicipality, paramWentAbroad, paramAcademicRank, paramArea)
+                .FromSqlRaw("EXEC UC_SP_SEARCH_PROFESSORS @Province, @Municipality, @WentAbroad, @AcademicRank, @Area", paramProvince, paramMunicipality, paramWentAbroad, paramAcademicRank, paramArea)
                 .ToList();
 
             if (professors.Count == 0)
